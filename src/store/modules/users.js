@@ -1,18 +1,21 @@
 
 const state = {
     newUser: {
-        name: 'test',
-        email: 'teste@teste.com',
-        password: '123456'
+        name: '',
+        email: '',
+        password: ''
     },
     user: {},
-    token: ''    
+    token: ''
 };
 
 const mutations = {
     setNewUser: (state, { newUser }) => state.newUser = newUser,
     setUser: (state, { user }) => state.user = user,
-    setToken: (state, { token }) => state.token = token
+    setToken(state, { token }) {
+        state.token = token;
+        localStorage.setItem('token', token)
+    }
 };
 
 const getters = {
