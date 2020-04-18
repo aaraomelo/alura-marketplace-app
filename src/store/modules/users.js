@@ -1,19 +1,20 @@
 
 const getDefaultState = () => {
     return {
+        auth: false,
         loginUser: {},
         newUser: {},
         user: {},
-        token: ''
+        token: localStorage.getItem('token')
     }
-
 }
 
 const state = getDefaultState();
 
 const mutations = {
-    setLoginUser: (state,  loginUser ) => state.loginUser = loginUser,
-    setNewUser: (state,  newUser ) => state.newUser = newUser,
+    enableAuth: (state) => state.auth = true,
+    setLoginUser: (state, loginUser) => state.loginUser = loginUser,
+    setNewUser: (state, newUser) => state.newUser = newUser,
     setUser: (state, { user }) => state.user = user,
     setToken(state, { token }) {
         state.token = token;
@@ -26,7 +27,8 @@ const getters = {
     getLoginUser: (state) => state.loginUser,
     getNewUser: (state) => state.newUser,
     getUser: (state) => state.user,
-    getToken: (state) => state.token
+    getToken: (state) => state.token,
+    getAuth: (state) => state.auth
 };
 
 const actions = {
@@ -37,6 +39,7 @@ const actions = {
         })
         commit('setUser', { user: res.user });
         commit('setToken', { token: res.token });
+        commit('enableAuth');
     },
     async loginUser({ state, commit, dispatch }) {
         const res = await dispatch('POST', {
@@ -45,10 +48,19 @@ const actions = {
         })
         commit('setUser', { user: res.user });
         commit('setToken', { token: res.token });
+        commit('enableAuth');
     },
     logoutUser({ commit }) {
-        commit('resetState')
         localStorage.removeItem('token')
+        commit('resetState')
+    },
+
+    async verifyToken({ state, dispatch, commit }) {
+        const user = await dispatch('GET', { uri: 'users', httpConfigs: { headers: { 'Authorization': state.token } } })
+        if (user) {
+            commit('setUser', { user });
+            commit('enableAuth');
+        }
     }
 };
 
