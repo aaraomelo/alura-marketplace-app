@@ -8,6 +8,19 @@
   </div>
 </template>
 
+<script>
+import {mapActions} from 'vuex';
+
+export default {
+  methods: {
+    ...mapActions(['verifyToken'])
+  },
+  mounted(){
+    this.verifyToken();
+  }
+}
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
