@@ -33,22 +33,26 @@ const getters = {
 
 const actions = {
     async registerNewUser({ state, commit, dispatch }) {
-        const res = await dispatch('POST', {
+        const user = await dispatch('POST', {
             uri: 'users',
             data: state.newUser
         })
-        commit('setUser', { user: res.user });
-        commit('setToken', { token: res.token });
-        commit('enableAuth');
+        if (user) {
+            commit('setUser', { user: user.user });
+            commit('setToken', { token: user.token });
+            commit('enableAuth');
+        }
     },
     async loginUser({ state, commit, dispatch }) {
-        const res = await dispatch('POST', {
+        const user = await dispatch('POST', {
             uri: 'users/login',
             data: state.loginUser
         })
-        commit('setUser', { user: res.user });
-        commit('setToken', { token: res.token });
-        commit('enableAuth');
+        if (user) {
+            commit('setUser', { user: user.user });
+            commit('setToken', { token: user.token });
+            commit('enableAuth');
+        }
     },
     logoutUser({ commit }) {
         localStorage.removeItem('token')
