@@ -1,26 +1,25 @@
 
-const state = {
-    loginUser: {
-        email: '',
-        password: ''
-    },
-    newUser: {
-        name: '',
-        email: '',
-        password: ''
-    },
-    user: {},
-    token: ''
-};
+const getDefaultState = () => {
+    return {
+        loginUser: {},
+        newUser: {},
+        user: {},
+        token: ''
+    }
+
+}
+
+const state = getDefaultState();
 
 const mutations = {
-    setLoginUser: (state, { loginUser }) => state.loginUser = loginUser,
-    setNewUser: (state, { newUser }) => state.newUser = newUser,
+    setLoginUser: (state,  loginUser ) => state.loginUser = loginUser,
+    setNewUser: (state,  newUser ) => state.newUser = newUser,
     setUser: (state, { user }) => state.user = user,
     setToken(state, { token }) {
         state.token = token;
         localStorage.setItem('token', token)
-    }
+    },
+    resetState: (state) => Object.assign(state, getDefaultState())
 };
 
 const getters = {
@@ -45,7 +44,11 @@ const actions = {
             data: state.loginUser
         })
         commit('setUser', { user: res.user });
-        commit('setToken', { token: res.token });  
+        commit('setToken', { token: res.token });
+    },
+    logoutUser({ commit }) {
+        commit('resetState')
+        localStorage.removeItem('token')
     }
 };
 
