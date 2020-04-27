@@ -2,7 +2,10 @@
 const getDefaultState = () => {
     return {
         auth: false,
-        loginUser: {},
+        loginUser: {
+            email:'van@van.com',
+            password:'123456'
+        },
         newUser: {},
         user: {},
         token: localStorage.getItem('token')

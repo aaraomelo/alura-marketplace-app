@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/register">Register</router-link>
-    </div>
-    <router-view/>
+    <Default>
+      <router-view/>
+    </Default>
   </div>
 </template>
 
 <script>
 import {mapActions} from 'vuex';
+import Default from './layout/Default'
 
 export default {
+  components:{
+    Default
+  },
   methods: {
     ...mapActions(['verifyToken'])
   },
