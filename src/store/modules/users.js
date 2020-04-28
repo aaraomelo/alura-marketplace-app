@@ -2,10 +2,7 @@
 const getDefaultState = () => {
     return {
         auth: false,
-        loginUser: {
-            email:'van@van.com',
-            password:'123456'
-        },
+        loginUser: {},
         newUser: {},
         user: {},
         token: localStorage.getItem('token')
@@ -17,7 +14,7 @@ const state = getDefaultState();
 const mutations = {
     enableAuth: (state) => state.auth = true,
     setLoginUser: (state, loginUser) => state.loginUser = loginUser,
-    setNewUser: (state, newUser) => state.newUser = newUser,
+    setNewUser: (state,  newUser ) => state.newUser = newUser,
     setUser: (state, { user }) => state.user = user,
     setToken(state, { token }) {
         state.token = token;
@@ -35,6 +32,9 @@ const getters = {
 };
 
 const actions = {
+    setNewUser({state, commit}, prop){
+        commit('setNewUser', {...state.newUser,...prop})
+    },
     async registerNewUser({ state, commit, dispatch }) {
         const user = await dispatch('POST', {
             uri: 'users',
