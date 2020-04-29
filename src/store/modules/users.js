@@ -1,3 +1,4 @@
+import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
 
 const getDefaultState = () => {
     return {
@@ -9,12 +10,22 @@ const getDefaultState = () => {
     }
 }
 
+const validations = {
+    state: {
+        newUser: {
+            name: { required, maxLength: maxLength(30), minLength: minLength(3) },
+            email: { required, email },
+            password: { required, minLength: minLength(6) }
+        },
+    }
+}
+
 const state = getDefaultState();
 
 const mutations = {
     enableAuth: (state) => state.auth = true,
     setLoginUser: (state, loginUser) => state.loginUser = loginUser,
-    setNewUser: (state,  newUser ) => state.newUser = newUser,
+    setNewUser: (state, newUser) => state.newUser = newUser,
     setUser: (state, { user }) => state.user = user,
     setToken(state, { token }) {
         state.token = token;
@@ -28,12 +39,12 @@ const getters = {
     getNewUser: (state) => state.newUser,
     getUser: (state) => state.user,
     getToken: (state) => state.token,
-    getAuth: (state) => state.auth
+    getAuth: (state) => state.auth,
 };
 
 const actions = {
-    setNewUser({state, commit}, prop){
-        commit('setNewUser', {...state.newUser,...prop})
+    setNewUser({ state, commit }, prop) {
+        commit('setNewUser', { ...state.newUser, ...prop })
     },
     async registerNewUser({ state, commit, dispatch }) {
         const user = await dispatch('POST', {
@@ -75,5 +86,6 @@ export default {
     state,
     mutations,
     getters,
-    actions
+    actions,
+    validations
 }
