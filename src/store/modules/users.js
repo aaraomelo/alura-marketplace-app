@@ -1,4 +1,3 @@
-import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
 
 const getDefaultState = () => {
     return {
@@ -7,16 +6,6 @@ const getDefaultState = () => {
         newUser: {},
         user: {},
         token: localStorage.getItem('token')
-    }
-}
-
-const validations = {
-    state: {
-        newUser: {
-            name: { required, maxLength: maxLength(30), minLength: minLength(3) },
-            email: { required, email },
-            password: { required, minLength: minLength(6) }
-        },
     }
 }
 
@@ -46,27 +35,28 @@ const actions = {
     setNewUser({ state, commit }, prop) {
         commit('setNewUser', { ...state.newUser, ...prop })
     },
-    async registerNewUser({ state, commit, dispatch }) {
+    setLoginUser({ state, commit }, prop) {
+        commit('setLoginUser', { ...state.loginUser, ...prop })
+    },
+    async registerNewUser({ state, commit, dispatch, getters }) {
+        getters.Errors.newUser.touch();
         const user = await dispatch('POST', {
             uri: 'users',
             data: state.newUser
         })
-        if (user) {
-            commit('setUser', { user: user.user });
-            commit('setToken', { token: user.token });
-            commit('enableAuth');
-        }
+        commit('setUser', { user: user.user });
+        commit('setToken', { token: user.token });
+        commit('enableAuth');
     },
-    async loginUser({ state, commit, dispatch }) {
+    async loginUser({ state, commit, dispatch, getters }) {
+        getters.Errors.loginUser.touch();
         const user = await dispatch('POST', {
             uri: 'users/login',
             data: state.loginUser
         })
-        if (user) {
-            commit('setUser', { user: user.user });
-            commit('setToken', { token: user.token });
-            commit('enableAuth');
-        }
+        commit('setUser', { user: user.user });
+        commit('setToken', { token: user.token });
+        commit('enableAuth');
     },
     logoutUser({ commit }) {
         localStorage.removeItem('token')
@@ -75,10 +65,7 @@ const actions = {
 
     async verifyToken({ state, dispatch, commit }) {
         const user = await dispatch('GET', { uri: 'users', httpConfigs: { headers: { 'Authorization': state.token } } })
-        if (user) {
-            commit('setUser', { user });
-            commit('enableAuth');
-        }
+        commit('setUser', { user });
     }
 };
 
@@ -87,5 +74,4 @@ export default {
     mutations,
     getters,
     actions,
-    validations
 }

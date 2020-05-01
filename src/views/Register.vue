@@ -5,7 +5,7 @@
         <v-text-field
           label="Nome"
           v-model="getNewUser().name"
-          :error-messages="nameErrors"
+          :error-messages="Errors.newUser.name()"
           :counter="32"
           @input="setNewUser({name: $event})"
           required
@@ -15,7 +15,7 @@
           label="E-mail"
           v-model="getNewUser().email"
           @input="setNewUser({email: $event})"
-          :error-messages="emailErrors"
+          :error-messages="Errors.newUser.email()"
           required
         ></v-text-field>
 
@@ -23,10 +23,10 @@
           label="Senha"
           v-model="getNewUser().password"
           @input="setNewUser({password: $event})"
-          :error-messages="passwordErrors"
+          :error-messages="Errors.newUser.password()"
           required
         ></v-text-field>
-        <v-btn>submit</v-btn>
+        <v-btn @click="registerNewUser"> submit </v-btn>
       </form>
     </v-app>
   </div>
@@ -38,10 +38,10 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   methods: {
     ...mapGetters(["getNewUser"]),
-    ...mapActions(["setNewUser"])
+    ...mapActions(["setNewUser", "registerNewUser"]),
   },
   computed: {
-    ...mapGetters(["nameErrors", "emailErrors", "passwordErrors"])
+    ...mapGetters(['Errors'])
   }
 };
 </script>

@@ -12,13 +12,8 @@
 
       <template v-slot:extension>
         <v-spacer></v-spacer>
-
-        <v-btn text>Crie sua conta</v-btn>
-
-        <v-btn text to="/">Entre</v-btn>
-
-        <v-btn text to="/register">Register</v-btn>
-
+        <v-btn text to="/register">Crie sua conta</v-btn>
+        <v-btn text to="/login">Entre</v-btn>
         <v-btn icon>
           <v-icon>mdi-cart</v-icon>
         </v-btn>
