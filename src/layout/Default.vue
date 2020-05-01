@@ -11,6 +11,7 @@
       ></v-text-field>
 
       <template v-slot:extension>
+        <v-btn text to="/sell">Vender</v-btn>
         <v-spacer></v-spacer>
         <v-btn text to="/register">Crie sua conta</v-btn>
         <v-btn text to="/login">Entre</v-btn>
