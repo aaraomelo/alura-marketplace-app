@@ -15,10 +15,11 @@ export default {
     Default
   },
   methods: {
-    ...mapActions(['verifyToken'])
+    ...mapActions(['verifyToken','downloadProducts'])
   },
   mounted(){
     this.verifyToken();
+    this.downloadProducts();
   }
 }
 </script>

@@ -5,7 +5,7 @@
         <v-text-field
           label="Nome"
           v-model="getNewUser().name"
-          :error-messages="Errors.newUser.name()"
+          :error-messages="usersErrors.newUser.name()"
           :counter="32"
           @input="setNewUser({name: $event})"
           required
@@ -15,7 +15,7 @@
           label="E-mail"
           v-model="getNewUser().email"
           @input="setNewUser({email: $event})"
-          :error-messages="Errors.newUser.email()"
+          :error-messages="usersErrors.newUser.email()"
           required
         ></v-text-field>
 
@@ -23,7 +23,7 @@
           label="Senha"
           v-model="getNewUser().password"
           @input="setNewUser({password: $event})"
-          :error-messages="Errors.newUser.password()"
+          :error-messages="usersErrors.newUser.password()"
           required
         ></v-text-field>
         <v-btn @click="registerNewUser"> submit </v-btn>
@@ -41,7 +41,7 @@ export default {
     ...mapActions(["setNewUser", "registerNewUser"]),
   },
   computed: {
-    ...mapGetters(['Errors'])
+    ...mapGetters(['usersErrors'])
   }
 };
 </script>

@@ -12,7 +12,10 @@ const getDefaultState = () => {
             },
             newUser: {
                 email: false,
-            }
+            },
+            newProduct:{
+                image: false
+            },
         }
     }
 }
@@ -32,7 +35,10 @@ const actions = {
         errors.errors.loginUser.email = message == "Este email não está cadastrado";
         errors.errors.loginUser.password = message == "Senha inválida";
         errors.errors.newUser.email = message == "Email já cadastrado";
-        commit('setErrors', errors)
+        errors.errors.newProduct.image = message == "Imagem inválida";
+        if( message == "É necessário informar um token" || message == "Token inválido")
+            commit('disableAuth');
+        commit('setErrors', errors);
     },
 
     POST({ dispatch }, { uri, data = {} }) {

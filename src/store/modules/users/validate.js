@@ -1,12 +1,11 @@
 import Vue from 'vue';
 import { validationMixin } from 'vuelidate'
 import { alpha, required, minLength, maxLength, email } from 'vuelidate/lib/validators'
-import users from "./users";
-import requests from "./requests";
+import store from "../../../store";
 
 const validator = new Vue({
     mixins: [validationMixin],
-    computed: { state: () => users.state },
+    computed: { state: () => store.state.users },
     validations: {
         state: {
             newUser: {
@@ -15,8 +14,8 @@ const validator = new Vue({
                     required,
                     email,
                     found() {
-                        if (!requests.state.errors.newUser.email) return true;
-                        return requests.state.errors.newUser.email = false;
+                        if (!store.state.requests.errors.newUser.email) return true;
+                        return store.state.requests.errors.newUser.email = false;
                     }
                 },
                 password: { required, minLength: minLength(6) },
@@ -26,16 +25,16 @@ const validator = new Vue({
                     required,
                     email,
                     found() {
-                        if (!requests.state.errors.loginUser.email) return true;
-                        return requests.state.errors.loginUser.email = false;
+                        if (!store.state.requests.errors.loginUser.email) return true;
+                        return store.state.requests.errors.loginUser.email = false;
                     }
                 },
                 password: {
                     required,
                     minLength: minLength(6),
                     found() {
-                        if (!requests.state.errors.loginUser.password) return true;
-                        return requests.state.errors.loginUser.password = false;
+                        if (!store.state.requests.errors.loginUser.password) return true;
+                        return store.state.requests.errors.loginUser.password = false;
                     }
                 }
             },
@@ -44,7 +43,7 @@ const validator = new Vue({
 })
 
 const getters = {
-    Errors() {
+    usersErrors() {
         return {
             newUser: {
                 name() {

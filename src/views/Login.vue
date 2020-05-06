@@ -6,7 +6,7 @@
           label="Email"
           v-model="getLoginUser().email"
           @input="setLoginUser({email: $event})"
-          :error-messages="Errors.loginUser.email()"
+          :error-messages="usersErrors.loginUser.email()"
           required
           :counter="32"
         ></v-text-field>
@@ -15,7 +15,7 @@
           label="Senha"
           v-model="getLoginUser().password"
           @input="setLoginUser({password: $event})"
-          :error-messages="Errors.loginUser.password()"
+          :error-messages="usersErrors.loginUser.password()"
           required
         ></v-text-field>
 
@@ -34,7 +34,7 @@ export default {
     ...mapActions(["setLoginUser","loginUser"])
   },
   computed: {
-    ...mapGetters(['Errors'])
+    ...mapGetters(['usersErrors'])
   }
 };
 </script>
