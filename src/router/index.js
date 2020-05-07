@@ -5,18 +5,10 @@ Vue.use(VueRouter)
 import store from '../store';
 
 function requireAuth(to, from, next) {
-  if (!store.state.users.auth) {
-    store.watch(
-      state => state.users.auth,
-      auth => {
-        if (auth)
-          next()
-        else
-          next({ name: 'Login' })
-      })
-  } else {
-    next()
-  }
+  store.state.users.auth ? next() : store.watch(
+    state => state.users.auth,
+    auth => auth ? next() : next({ name: 'Login' })
+  );
 }
 
 
