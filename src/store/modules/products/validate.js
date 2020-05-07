@@ -14,8 +14,11 @@ const validator = new Vue({
                 image: {
                     required,
                     found() {
-                        if (!store.state.requests.errors.newProduct.image) return true;
-                        return store.state.requests.errors.newProduct.image = false;
+                        if (!store.state.requests.errors.newProduct.image){
+                            return true;
+                        }
+                        store.state.requests.errors.newProduct.image = false
+                        return false ;
                     }
                 }
             },

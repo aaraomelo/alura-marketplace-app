@@ -14,8 +14,11 @@ const validator = new Vue({
                     required,
                     email,
                     found() {
-                        if (!store.state.requests.errors.newUser.email) return true;
-                        return store.state.requests.errors.newUser.email = false;
+                        if (!store.state.requests.errors.newUser.email) {
+                            return true;
+                        }
+                        store.state.requests.errors.newUser.email = false;
+                        return false
                     }
                 },
                 password: { required, minLength: minLength(6) },
@@ -25,16 +28,22 @@ const validator = new Vue({
                     required,
                     email,
                     found() {
-                        if (!store.state.requests.errors.loginUser.email) return true;
-                        return store.state.requests.errors.loginUser.email = false;
+                        if (!store.state.requests.errors.loginUser.email) {
+                            return true
+                        }
+                        store.state.requests.errors.loginUser.email = false
+                        return false;
                     }
                 },
                 password: {
                     required,
                     minLength: minLength(6),
                     found() {
-                        if (!store.state.requests.errors.loginUser.password) return true;
-                        return store.state.requests.errors.loginUser.password = false;
+                        if (!store.state.requests.errors.loginUser.password) {
+                            return true;
+                        }
+                        store.state.requests.errors.loginUser.password = false;
+                        return false;
                     }
                 }
             },
