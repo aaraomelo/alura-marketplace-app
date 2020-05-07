@@ -7,21 +7,21 @@
             <v-text-field
               label="Descrição"
               v-model="getNewProduct().description"
-              @input="setNewProduct({description: $event})"
+              @input="setNewProduct({description: $event}); productsErrors.newProduct.touchDescription()"
               :error-messages="productsErrors.newProduct.description()"
               required
             ></v-text-field>
             <v-text-field
               label="Preço"
               v-model="getNewProduct().price"
-              @input="setNewProduct({price: $event})"
+              @input="setNewProduct({price: $event}); productsErrors.newProduct.touchPrice()"
               :error-messages="productsErrors.newProduct.price()"
               required
             ></v-text-field>
             <v-text-field
               label="Imagem"
               v-model="getNewProduct().image"
-              @input="setNewProduct({image: $event})"
+              @input="setNewProduct({image: $event}); productsErrors.newProduct.touchImage()"
               :error-messages="productsErrors.newProduct.image()"
               required
             ></v-text-field>
@@ -35,7 +35,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-btn @click="uploadProduct">submit</v-btn>
+          <v-btn @click="productsErrors.newProduct.touch(); uploadProduct;">submit</v-btn>
         </v-row>
       </form>
     </v-app>

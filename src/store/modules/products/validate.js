@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { validationMixin } from 'vuelidate'
-import { required, minLength, decimal} from 'vuelidate/lib/validators'
+import { required, minLength, decimal } from 'vuelidate/lib/validators'
 import store from "../../../store";
 
 const validator = new Vue({
@@ -11,13 +11,13 @@ const validator = new Vue({
             newProduct: {
                 description: { required, minLength: minLength(10) },
                 price: { required, decimal },
-                image: { 
+                image: {
                     required,
                     found() {
                         if (!store.state.requests.errors.newProduct.image) return true;
                         return store.state.requests.errors.newProduct.image = false;
                     }
-                 }
+                }
             },
         }
     }
@@ -29,29 +29,32 @@ const getters = {
             newProduct: {
                 description() {
                     const errors = [];
-                    if (validator.state.newProduct.description) validator.$v.state.newProduct.description.$touch();
-                    if (!validator.$v.state.newProduct.description.$dirty) return errors;
-                    !validator.$v.state.newProduct.description.minLength && errors.push("A descrição deve ter no mínimo 10 letras");
-                    !validator.$v.state.newProduct.description.required && errors.push("É necessário a descrição do produto");
+                    const v = validator.$v.state.newProduct.description;
+                    if (!v.$dirty) return errors;
+                    !v.minLength && errors.push("A descrição deve ter no mínimo 10 letras");
+                    !v.required && errors.push("É necessário a descrição do produto");
                     return errors;
                 },
                 price() {
                     const errors = [];
-                    if (validator.state.newProduct.price) validator.$v.state.newProduct.price.$touch();
-                    if (!validator.$v.state.newProduct.price.$dirty) return errors;
-                    !validator.$v.state.newProduct.price.required && errors.push("É necessário o preço do produto");
-                    !validator.$v.state.newProduct.price.decimal && errors.push("O preço deve ser um número decimal");
+                    const v = validator.$v.state.newProduct.price;
+                    if (!v.$dirty) return errors;
+                    !v.required && errors.push("É necessário o preço do produto");
+                    !v.decimal && errors.push("O preço deve ser um número decimal");
                     return errors;
                 },
                 image() {
                     const errors = [];
-                    if (validator.state.newProduct.image) validator.$v.state.newProduct.image.$touch();
-                    if (!validator.$v.state.newProduct.image.$dirty) return errors;
-                    !validator.$v.state.newProduct.image.required && errors.push("É necessário uma imagem do produto");
-                    !validator.$v.state.newProduct.image.found && errors.push("Imagem inválida");
+                    const v = validator.$v.state.newProduct.image;
+                    if (!v.$dirty) return errors;
+                    !v.required && errors.push("É necessário uma imagem do produto");
+                    !v.found && errors.push("Imagem inválida");
                     return errors;
                 },
-                touch: () => validator.$v.state.newProduct.$touch()
+                touch: () => validator.$v.state.newProduct.$touch(),
+                touchDescription: () => validator.$v.state.newProduct.description.$touch(),
+                touchPrice: () => validator.$v.state.newProduct.price.$touch(),
+                touchImage: () => validator.$v.state.newProduct.image.$touch()
             },
         }
     }

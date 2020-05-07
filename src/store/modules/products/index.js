@@ -16,8 +16,7 @@ const getters = {
 
 const actions = {
     setNewProduct: ({ state, commit }, prop) => commit('setNewProduct', { ...state.newProduct, ...prop }),
-    async uploadProduct({ commit, state, getters, dispatch }) {
-        getters.productsErrors.newProduct.touch();
+    async uploadProduct({ commit, state, dispatch }) {
         const product = await dispatch('POST', {
             uri: 'products',
             data: state.newProduct
