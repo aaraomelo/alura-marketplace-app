@@ -17,7 +17,7 @@ const validator = new Vue({
                         if (!store.state.requests.errors.newUser.email) {
                             return true;
                         }
-                        store.state.requests.errors.newUser.email = false;
+                        store.dispatch('clearErrors')
                         return false
                     }
                 },
@@ -31,7 +31,7 @@ const validator = new Vue({
                         if (!store.state.requests.errors.loginUser.email) {
                             return true
                         }
-                        store.state.requests.errors.loginUser.email = false
+                        store.dispatch('clearErrors')
                         return false;
                     }
                 },
@@ -42,7 +42,7 @@ const validator = new Vue({
                         if (!store.state.requests.errors.loginUser.password) {
                             return true;
                         }
-                        store.state.requests.errors.loginUser.password = false;
+                        store.dispatch('clearErrors')
                         return false;
                     }
                 }
