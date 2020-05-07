@@ -1,7 +1,8 @@
+import router from '../../../router';
 
 const getDefaultState = () => {
     return {
-        auth: false,
+        auth: null,
         loginUser: {},
         newUser: {},
         user: {},
@@ -13,6 +14,7 @@ const state = getDefaultState();
 
 const mutations = {
     enableAuth: (state) => state.auth = true,
+    disableAuth: (state) => state.auth = false,
     setLoginUser: (state, loginUser) => state.loginUser = loginUser,
     setNewUser: (state, newUser) => state.newUser = newUser,
     setUser: (state, { user }) => state.user = user,
@@ -23,7 +25,7 @@ const mutations = {
     resetState: (state) => Object.assign(state, getDefaultState())
 };
 
-const getters = {
+var getters = {
     getLoginUser: (state) => state.loginUser,
     getNewUser: (state) => state.newUser,
     getUser: (state) => state.user,
@@ -38,8 +40,7 @@ const actions = {
     setLoginUser({ state, commit }, prop) {
         commit('setLoginUser', { ...state.loginUser, ...prop })
     },
-    async registerNewUser({ state, commit, dispatch, getters }) {
-        getters.Errors.newUser.touch();
+    async registerNewUser({ state, commit, dispatch }) {
         const user = await dispatch('POST', {
             uri: 'users',
             data: state.newUser
@@ -47,9 +48,9 @@ const actions = {
         commit('setUser', { user: user.user });
         commit('setToken', { token: user.token });
         commit('enableAuth');
+        router.push('/')
     },
-    async loginUser({ state, commit, dispatch, getters }) {
-        getters.Errors.loginUser.touch();
+    async loginUser({ state, commit, dispatch }) {
         const user = await dispatch('POST', {
             uri: 'users/login',
             data: state.loginUser
@@ -57,6 +58,7 @@ const actions = {
         commit('setUser', { user: user.user });
         commit('setToken', { token: user.token });
         commit('enableAuth');
+        router.push('/')
     },
     logoutUser({ commit }) {
         localStorage.removeItem('token')
@@ -66,12 +68,15 @@ const actions = {
     async verifyToken({ state, dispatch, commit }) {
         const user = await dispatch('GET', { uri: 'users', httpConfigs: { headers: { 'Authorization': state.token } } })
         commit('setUser', { user });
+        commit('enableAuth');
     }
 };
 
+
+import validate from './validate';
 export default {
     state,
     mutations,
-    getters,
+    getters: { ...getters, ...validate.getters },
     actions,
 }

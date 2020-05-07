@@ -2,15 +2,14 @@ import Vuex from "vuex";
 import Vue from "vue";
 import requests from "./modules/requests";
 import users from "./modules/users";
-import validate from "./modules/validate";
+import products from "./modules/products";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules:{
-        validate,
+        products,
         requests,
-        users
-  
+        users,
     }
 })

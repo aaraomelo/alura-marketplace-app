@@ -5,28 +5,28 @@
         <v-text-field
           label="Nome"
           v-model="getNewUser().name"
-          :error-messages="Errors.newUser.name()"
+          :error-messages="usersErrors.newUser.name()"
           :counter="32"
-          @input="setNewUser({name: $event})"
+          @input="setNewUser({name: $event}); usersErrors.newUser.touchName()"
           required
         ></v-text-field>
 
         <v-text-field
           label="E-mail"
           v-model="getNewUser().email"
-          @input="setNewUser({email: $event})"
-          :error-messages="Errors.newUser.email()"
+          @input="setNewUser({email: $event}); usersErrors.newUser.touchEmail()"
+          :error-messages="usersErrors.newUser.email()"
           required
         ></v-text-field>
 
         <v-text-field
           label="Senha"
           v-model="getNewUser().password"
-          @input="setNewUser({password: $event})"
-          :error-messages="Errors.newUser.password()"
+          @input="setNewUser({password: $event}); usersErrors.newUser.touchPassword()"
+          :error-messages="usersErrors.newUser.password()"
           required
         ></v-text-field>
-        <v-btn @click="registerNewUser"> submit </v-btn>
+        <v-btn @click="usersErrors.newUser.touch(); registerNewUser()"> submit </v-btn>
       </form>
     </v-app>
   </div>
@@ -41,7 +41,7 @@ export default {
     ...mapActions(["setNewUser", "registerNewUser"]),
   },
   computed: {
-    ...mapGetters(['Errors'])
+    ...mapGetters(['usersErrors'])
   }
 };
 </script>
