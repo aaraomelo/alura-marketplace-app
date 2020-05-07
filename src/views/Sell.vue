@@ -35,7 +35,7 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-btn @click="productsErrors.newProduct.touch(); uploadProduct;">submit</v-btn>
+          <v-btn @click="productsErrors.newProduct.touch(); uploadProduct();">submit</v-btn>
         </v-row>
       </form>
     </v-app>

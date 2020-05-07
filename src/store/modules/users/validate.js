@@ -48,53 +48,58 @@ const getters = {
             newUser: {
                 name() {
                     const errors = [];
-                    if (validator.state.newUser.name) validator.$v.state.newUser.name.$touch();
-                    if (!validator.$v.state.newUser.name.$dirty) return errors;
-                    !validator.$v.state.newUser.name.maxLength && errors.push("O nome deve ter no máximo 32 letras");
-                    !validator.$v.state.newUser.name.minLength && errors.push("O nome deve ter no mínimo 3 letras");
-                    !validator.$v.state.newUser.name.alpha && errors.push("Utilize somente letras no nome");
-                    !validator.$v.state.newUser.name.required && errors.push("É necessário o nome");
+                    const v = validator.$v.state.newUser.name;
+                    if (!v.$dirty) return errors;
+                    !v.maxLength && errors.push("O nome deve ter no máximo 32 letras");
+                    !v.minLength && errors.push("O nome deve ter no mínimo 3 letras");
+                    !v.alpha && errors.push("Utilize somente letras no nome");
+                    !v.required && errors.push("É necessário o nome");
                     return errors;
                 },
                 email() {
                     const errors = [];
-                    if (validator.state.newUser.email) validator.$v.state.newUser.email.$touch();
-                    if (!validator.$v.state.newUser.email.$dirty) return errors;
-                    !validator.$v.state.newUser.email.email && errors.push("Entre com um email válido");
-                    !validator.$v.state.newUser.email.required && errors.push("É necessário o email");
-                    !validator.$v.state.newUser.email.found && errors.push("Este email já está cadastrado");
+                    const v = validator.$v.state.newUser.email;
+                    if (!v.$dirty) return errors;
+                    !v.email && errors.push("Entre com um email válido");
+                    !v.required && errors.push("É necessário o email");
+                    !v.found && errors.push("Este email já está cadastrado");
                     return errors;
                 },
                 password() {
                     const errors = [];
-                    if (validator.state.newUser.password) validator.$v.state.newUser.password.$touch();
-                    if (!validator.$v.state.newUser.password.$dirty) return errors;
-                    !validator.$v.state.newUser.password.minLength && errors.push("A senha deve ter no mínimo 6 caracteres");
-                    !validator.$v.state.newUser.password.required && errors.push("É necessário a senha");
+                    const v = validator.$v.state.newUser.password;
+                    if (!v.$dirty) return errors;
+                    !v.minLength && errors.push("A senha deve ter no mínimo 6 caracteres");
+                    !v.required && errors.push("É necessário a senha");
                     return errors;
                 },
-                touch: () => validator.$v.state.newUser.$touch()
+                touch: () => validator.$v.state.newUser.$touch(),
+                touchName: () => validator.$v.state.newUser.name.$touch(),
+                touchPassword: () => validator.$v.state.newUser.password.$touch(),
+                touchEmail: () => validator.$v.state.newUser.email.$touch(),
             },
             loginUser: {
                 email() {
                     const errors = [];
-                    if (validator.state.loginUser.email) validator.$v.state.loginUser.email.$touch();
-                    if (!validator.$v.state.loginUser.email.$dirty) return errors;
-                    !validator.$v.state.loginUser.email.email && errors.push("Entre com um email válido");
-                    !validator.$v.state.loginUser.email.required && errors.push("É necessário o email");
-                    !validator.$v.state.loginUser.email.found && errors.push("Este email não está cadastrado");
+                    const v = validator.$v.state.loginUser.email;
+                    if (!v.$dirty) return errors;
+                    !v.email && errors.push("Entre com um email válido");
+                    !v.required && errors.push("É necessário o email");
+                    !v.found && errors.push("Este email não está cadastrado");
                     return errors;
                 },
                 password() {
                     const errors = [];
-                    if (validator.state.loginUser.password) validator.$v.state.loginUser.password.$touch();
-                    if (!validator.$v.state.loginUser.password.$dirty) return errors;
-                    !validator.$v.state.loginUser.password.minLength && errors.push("A senha deve ter no mínimo 6 caracteres");
-                    !validator.$v.state.loginUser.password.required && errors.push("É necessário a senha");
-                    !validator.$v.state.loginUser.password.found && errors.push("Senha inválida");
+                    const v = validator.$v.state.loginUser.password;
+                    if (!v.$dirty) return errors;
+                    !v.minLength && errors.push("A senha deve ter no mínimo 6 caracteres");
+                    !v.required && errors.push("É necessário a senha");
+                    !v.found && errors.push("Senha inválida");
                     return errors;
                 },
-                touch: () => validator.$v.state.loginUser.$touch()
+                touch: () => validator.$v.state.loginUser.$touch(),
+                touchEmail: () => validator.$v.state.loginUser.email.$touch(),
+                touchPassword: () => validator.$v.state.loginUser.password.$touch()
             }
         }
     }

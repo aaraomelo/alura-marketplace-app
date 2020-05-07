@@ -40,8 +40,7 @@ const actions = {
     setLoginUser({ state, commit }, prop) {
         commit('setLoginUser', { ...state.loginUser, ...prop })
     },
-    async registerNewUser({ state, commit, dispatch, getters }) {
-        getters.usersErrors.newUser.touch();
+    async registerNewUser({ state, commit, dispatch }) {
         const user = await dispatch('POST', {
             uri: 'users',
             data: state.newUser
@@ -51,8 +50,7 @@ const actions = {
         commit('enableAuth');
         router.push('/')
     },
-    async loginUser({ state, commit, dispatch, getters }) {
-        getters.usersErrors.loginUser.touch();
+    async loginUser({ state, commit, dispatch }) {
         const user = await dispatch('POST', {
             uri: 'users/login',
             data: state.loginUser

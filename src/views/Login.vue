@@ -5,7 +5,7 @@
         <v-text-field
           label="Email"
           v-model="getLoginUser().email"
-          @input="setLoginUser({email: $event})"
+          @input="setLoginUser({email: $event}); usersErrors.loginUser.touchEmail()"
           :error-messages="usersErrors.loginUser.email()"
           required
           :counter="32"
@@ -14,12 +14,12 @@
         <v-text-field
           label="Senha"
           v-model="getLoginUser().password"
-          @input="setLoginUser({password: $event})"
+          @input="setLoginUser({password: $event}); usersErrors.loginUser.touchPassword()"
           :error-messages="usersErrors.loginUser.password()"
           required
         ></v-text-field>
 
-         <v-btn @click="loginUser"> submit </v-btn>
+         <v-btn @click="usersErrors.loginUser.touch(); loginUser()"> submit </v-btn>
       </form>
     </v-app>
   </div>
